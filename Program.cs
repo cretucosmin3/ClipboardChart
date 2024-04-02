@@ -39,7 +39,7 @@ public class Program
 
         WindowOptions options = WindowOptions.Default;
         options.Size = new Vector2D<int>(WindowWidth, WindowHeight);
-        options.Title = "ClipChart";
+        options.Title = "KlipChart";
         options.VSync = false;
         options.WindowState = WindowState.Normal;
         options.WindowBorder = WindowBorder.Fixed;
@@ -69,6 +69,11 @@ public class Program
         _window.Run();
 
         _window.Dispose();
+    }
+
+    public static void ReRender()
+    {
+        _window.DoRender();
     }
 
     private static void SetInput()

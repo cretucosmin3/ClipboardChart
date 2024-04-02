@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using Silk.NET.Input;
 using SkiaSharp;
+using System;
+using System.Threading;
 
 public abstract class AppBase
 {
@@ -20,31 +22,40 @@ public abstract class AppBase
     {
         CheckMouseInteraction(position);
 
-        if(ActiveButton != null)
+        if (ActiveButton != null)
             ActiveButton.State = ButtonState.Hovered;
     }
 
     public void MouseDown(Vector2 position, MouseButton button)
     {
+        Console.WriteLine("MouseDown");
+
+        Thread.Sleep(5);
+
         if (button != MouseButton.Left) return;
 
         CheckMouseInteraction(position);
 
-        if(ActiveButton != null)
+        if (ActiveButton != null)
             ActiveButton.State = ButtonState.Clicked;
+
+        Program.ReRender();
     }
 
     public void MouseUp(Vector2 position, MouseButton button)
     {
+        Console.WriteLine("MouseUp");
         if (button != MouseButton.Left) return;
 
         CheckMouseInteraction(position);
 
-        if(ActiveButton != null)
+        if (ActiveButton != null)
         {
             ActiveButton.State = ButtonState.Hovered;
             ActiveButton.OnClicked?.Invoke();
         }
+
+        Program.ReRender();
     }
 
     #endregion
@@ -55,9 +66,9 @@ public abstract class AppBase
     {
         Button? hovered = FindHoveredButton(position);
 
-        if(hovered != ActiveButton && ActiveButton != null)
+        if (hovered != ActiveButton && ActiveButton != null)
             ActiveButton.State = ButtonState.None;
-            
+
         ActiveButton = hovered;
     }
 
